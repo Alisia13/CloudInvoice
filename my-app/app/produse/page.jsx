@@ -71,6 +71,8 @@ const ProdusePage = () => {
       </div>
     </div>
   );
+
+
 };
 
 export default ProdusePage;
