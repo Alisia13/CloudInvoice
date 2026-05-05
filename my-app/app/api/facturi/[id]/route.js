@@ -6,7 +6,6 @@ function toObjectId(id) {
   if (!id || !ObjectId.isValid(id)) {
     return null;
   }
-
   return new ObjectId(id);
 }
 
@@ -29,17 +28,17 @@ async function resolveId(context) {
   return { _id, error: null };
 }
 
+// 🔹 GET factura după ID
 export async function GET(request, context) {
   const { _id, error } = await resolveId(context);
-
   if (error) return error;
 
-  const clienti = await getCollection("clienti");
-  const doc = await clienti.findOne({ _id });
+  const facturi = await getCollection("facturi");
+  const doc = await facturi.findOne({ _id });
 
   if (!doc) {
     return NextResponse.json(
-      { error: "Client not found" },
+      { error: "Factura not found" },
       { status: 404 }
     );
   }
@@ -47,17 +46,26 @@ export async function GET(request, context) {
   return NextResponse.json(doc);
 }
 
+// 🔹 UPDATE factură
 export async function PUT(request, context) {
   const { _id, error } = await resolveId(context);
-
   if (error) return error;
 
   const body = await request.json();
   delete body._id;
 
-  const clienti = await getCollection("clienti");
+  // recalcul total dacă se modifică produse
+  if (body.produse) {
+    const total = body.produse.reduce((sum, p) => {
+      return sum + p.pret * p.cantitate;
+    }, 0);
 
-  const updated = await clienti.findOneAndUpdate(
+    body.total = total;
+  }
+
+  const facturi = await getCollection("facturi");
+
+  const updated = await facturi.findOneAndUpdate(
     { _id },
     { $set: body },
     { returnDocument: "after" }
@@ -65,7 +73,7 @@ export async function PUT(request, context) {
 
   if (!updated) {
     return NextResponse.json(
-      { error: "Client not found" },
+      { error: "Factura not found" },
       { status: 404 }
     );
   }
@@ -73,23 +81,23 @@ export async function PUT(request, context) {
   return NextResponse.json(updated);
 }
 
+// 🔹 DELETE factură
 export async function DELETE(request, context) {
-  const params = await context.params;
-  const id = params.id;
+  const { _id, error } = await resolveId(context);
+  if (error) return error;
 
-  if (!id) {
-    return Response.json({ error: "Invalid id" }, { status: 400 });
-  }
+  const facturi = await getCollection("facturi");
 
-  const clienti = await getCollection("clienti");
-
-  const result = await clienti.deleteOne({
-    _id: new ObjectId(id),
-  });
+  const result = await facturi.deleteOne({ _id });
 
   if (result.deletedCount === 0) {
-    return Response.json({ error: "Not found" }, { status: 404 });
+    return NextResponse.json(
+      { error: "Factura not found" },
+      { status: 404 }
+    );
   }
 
-  return Response.json({ success: true });
+  return NextResponse.json({
+    deleted: _id.toString(),
+  });
 }
