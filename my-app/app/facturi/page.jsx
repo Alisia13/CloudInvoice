@@ -28,7 +28,7 @@ const FacturiPage = () => {
         <h1 className="text-3xl font-bold">Facturi</h1>
 
         <Link href="/facturi/create" className="bg-blue-600 text-white px-4 py-2 rounded">
-          Creează factură
+          Adaugă factură
         </Link>
       </div>
 

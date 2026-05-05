@@ -103,14 +103,14 @@ const CreateFactura = () => {
 
   return (
     <div className="max-w-3xl mx-auto p-8">
-      <h1 className="text-3xl font-bold mb-8">Creează factură</h1>
+      <h1 className="text-3xl font-bold mb-8">Adaugă factură</h1>
 
       <form onSubmit={handleSubmit} className="flex flex-col gap-4">
         <input
           type="text"
           value={numarFactura}
           onChange={(e) => setNumarFactura(e.target.value)}
-          placeholder="Număr factură, ex: F5"
+          placeholder="Număr factură"
           className="border rounded px-3 py-2 flex-1 bg-white text-black dark:bg-gray-800 dark:text-white"
           required
         />
