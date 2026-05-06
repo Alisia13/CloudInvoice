@@ -21,7 +21,7 @@ export const createProdus = async (data) => {
 
   if (!response.ok) return null;
   return response.json();
-};
+}
 
 export const updateProdus = async (data) => {
   const { _id, ...body } = data;

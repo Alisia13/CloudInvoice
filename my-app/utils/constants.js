@@ -4,8 +4,6 @@ export const clientDefaultValues = {
   email: "",
   telefon: "",
   adresa: "",
-  tipClient: "",
-  cui: "",
   dataCreare: "",
 };
 

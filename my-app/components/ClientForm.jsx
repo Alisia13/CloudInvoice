@@ -8,22 +8,22 @@ const ClientForm = ({ data, onSubmit }) => {
     dataCreare: data.dataCreare || new Date().toISOString().slice(0, 10),
   });
 
-const handleChange = (e) => {
-  const { name, value } = e.target;
+  const handleChange = (e) => {
+    const { name, value } = e.target;
 
-  setFormData((prev) => {
-    const updated = {
-      ...prev,
-      [name]: value,
-    };
+    setFormData((prev) => {
+      const updated = {
+        ...prev,
+        [name]: value,
+      };
 
-    if (name === "tipClient" && value === "Persoană fizică") {
-      updated.cui = "";
-    }
+      if (name === "tipClient" && value === "Persoană fizică") {
+        updated.cui = "";
+      }
 
-    return updated;
-  });
-};
+      return updated;
+    });
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();

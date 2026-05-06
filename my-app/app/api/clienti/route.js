@@ -11,7 +11,6 @@ export async function GET() {
 export async function POST(request) {
   const body = await request.json();
 
-  // 🔥 elimină _id dacă vine din frontend
   delete body._id;
 
   const clienti = await getCollection("clienti");

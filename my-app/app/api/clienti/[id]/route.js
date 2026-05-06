@@ -10,10 +10,8 @@ function toObjectId(id) {
   return new ObjectId(id);
 }
 
-async function resolveId(context) {
-  const params = await context.params;
-  const id = params.id;
-
+async function resolveId(params) {
+  const { id } = await params;
   const _id = toObjectId(id);
 
   if (!_id) {
@@ -29,26 +27,29 @@ async function resolveId(context) {
   return { _id, error: null };
 }
 
-export async function GET(request, context) {
-  const { _id, error } = await resolveId(context);
+export async function GET(request, { params }) {
+  const { _id, error } = await resolveId(params);
 
   if (error) return error;
 
   const clienti = await getCollection("clienti");
-  const doc = await clienti.findOne({ _id });
+  const client = await clienti.findOne({ _id });
 
-  if (!doc) {
+  if (!client) {
     return NextResponse.json(
       { error: "Client not found" },
       { status: 404 }
     );
   }
 
-  return NextResponse.json(doc);
+  return NextResponse.json({
+    ...client,
+    _id: client._id.toString(),
+  });
 }
 
-export async function PUT(request, context) {
-  const { _id, error } = await resolveId(context);
+export async function PUT(request, { params }) {
+  const { _id, error } = await resolveId(params);
 
   if (error) return error;
 
@@ -57,39 +58,42 @@ export async function PUT(request, context) {
 
   const clienti = await getCollection("clienti");
 
-  const updated = await clienti.findOneAndUpdate(
+  const updatedClient = await clienti.findOneAndUpdate(
     { _id },
     { $set: body },
     { returnDocument: "after" }
   );
 
-  if (!updated) {
+  if (!updatedClient) {
     return NextResponse.json(
       { error: "Client not found" },
       { status: 404 }
     );
   }
 
-  return NextResponse.json(updated);
+  return NextResponse.json({
+    ...updatedClient,
+    _id: updatedClient._id.toString(),
+  });
 }
 
-export async function DELETE(request, context) {
-  const params = await context.params;
-  const id = params.id;
+export async function DELETE(request, { params }) {
+  const { _id, error } = await resolveId(params);
 
-  if (!id) {
-    return Response.json({ error: "Invalid id" }, { status: 400 });
-  }
+  if (error) return error;
 
   const clienti = await getCollection("clienti");
 
-  const result = await clienti.deleteOne({
-    _id: new ObjectId(id),
-  });
+  const { deletedCount } = await clienti.deleteOne({ _id });
 
-  if (result.deletedCount === 0) {
-    return Response.json({ error: "Not found" }, { status: 404 });
+  if (deletedCount === 0) {
+    return NextResponse.json(
+      { error: "Client not found" },
+      { status: 404 }
+    );
   }
 
-  return Response.json({ success: true });
+  return NextResponse.json({
+    deleted: _id.toString(),
+  });
 }

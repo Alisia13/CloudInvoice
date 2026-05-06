@@ -12,12 +12,15 @@ const EditProdusContent = () => {
   const searchParams = useSearchParams();
 
   const [produs, setProdus] = useState(produsDefaultValues);
-  const [loading, setLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const fetchProdus = async (id) => {
+  const getProdus = async (id) => {
     const data = await getProdusById(id);
-    if (data) setProdus(data);
-    setLoading(false);
+    if (data) { 
+      setProdus(data); 
+    }
+
+    setIsLoading(false);
   };
 
   const onSubmit = async (data) => {
@@ -35,13 +38,13 @@ const EditProdusContent = () => {
 
     if (!id) {
       router.push("/produse");
-      return;
     }
-
-    fetchProdus(id);
+    else {
+      getProdus(id);
+    }
   }, []);
 
-  if (loading) return <Spinner />;
+  if (isLoading) return <Spinner />;
 
   return (
     <div className="max-w-2xl mx-auto p-8">

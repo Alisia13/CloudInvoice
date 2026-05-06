@@ -10,18 +10,17 @@ import Spinner from "@/components/Spinner";
 const EditClientContent = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
-
   const [client, setClient] = useState(clientDefaultValues);
-  const [loading, setLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const fetchClient = async (id) => {
+  const getClient = async (id) => {
     const data = await getClientById(id);
 
     if (data) {
       setClient(data);
     }
 
-    setLoading(false);
+    setIsLoading(false);
   };
 
   const onSubmit = async (data) => {
@@ -39,13 +38,12 @@ const EditClientContent = () => {
 
     if (!id) {
       router.push("/clienti");
-      return;
+    } else {
+      getClient(id);
     }
-
-    fetchClient(id);
   }, []);
 
-  if (loading) return <Spinner />;
+  if (isLoading) return <Spinner />;
 
   return (
     <div className="max-w-2xl mx-auto p-8">
