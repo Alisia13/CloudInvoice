@@ -12,7 +12,7 @@ const CreateFactura = () => {
   const [numarFactura, setNumarFactura] = useState("");
   const [clientId, setClientId] = useState("");
   const [status, setStatus] = useState("Emisă");
-  const [dataEmitere, setDataEmitere] = useState("2026-05-05");
+  const [dataEmitere, setDataEmitere] = useState(new Date().toISOString().slice(0, 10));
 
   const [produsId, setProdusId] = useState("");
   const [cantitate, setCantitate] = useState(1);

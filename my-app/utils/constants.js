@@ -12,6 +12,5 @@ export const produsDefaultValues = {
   nume: "",
   categorie: "",
   pret: "",
-  stoc: "",
   dataCreare: "",
 };

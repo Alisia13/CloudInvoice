@@ -13,7 +13,7 @@ const ProdusForm = ({ data, onSubmit }) => {
 
     setFormData((prev) => ({
       ...prev,
-      [name]: name === "pret" || name === "stoc" ? Number(value) : value,
+      [name]: name === "pret" ? Number(value) : value,
     }));
   };
 
@@ -51,17 +51,6 @@ const ProdusForm = ({ data, onSubmit }) => {
         value={formData.pret}
         onChange={handleChange}
         placeholder="Preț"
-        className="border rounded px-3 py-2"
-        required
-      />
-
-      <input
-        name="stoc"
-        type="number"
-        min="0"
-        value={formData.stoc}
-        onChange={handleChange}
-        placeholder="Stoc"
         className="border rounded px-3 py-2"
         required
       />

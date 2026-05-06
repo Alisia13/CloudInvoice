@@ -50,7 +50,6 @@ const ProdusePage = () => {
               <h2 className="text-xl font-semibold">{produs.nume}</h2>
               <p>Categorie: {produs.categorie}</p>
               <p>Preț: {produs.pret} lei</p>
-              <p>Stoc: {produs.stoc}</p>
               <p className="text-sm text-gray-400">Creat la: {produs.dataCreare}</p>
             </div>
 

@@ -3,26 +3,33 @@ import { ObjectId } from "mongodb";
 import { getCollection } from "@/lib/mongodb";
 
 function toObjectId(id) {
-  if (!id || !ObjectId.isValid(id)) {
+  if (!ObjectId.isValid(id)) {
     return null;
   }
   return new ObjectId(id);
 }
 
-export async function GET(request, { params }) {
-  const _id = toObjectId(params.id);
+async function resolveId(params) {
+    const { id } = await params;
+    const _id = toObjectId(id);
 
-  if (!_id) {
-    return NextResponse.json(
-      { error: "Invalid id" },
-      { status: 400 }
-    );
+    if(!_id) {
+        return { _id: null, error: NextResponse.json({error: 'Invalid ID'}, { status: 400 })};
+    }
+
+    return { _id, error: null};
+}
+
+export async function GET(request, { params }) {
+  const {_id, error} = await resolveStaticStageData(params);
+  if(error) {
+    return error;
   }
 
   const facturi = await getCollection("facturi");
-  const doc = await facturi.findOne({ _id });
+  const factura = await facturi.findOne({ _id });
 
-  if (!doc) {
+  if (!factura) {
     return NextResponse.json(
       { error: "Factura not found" },
       { status: 404 }
