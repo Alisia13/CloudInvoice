@@ -7,6 +7,7 @@ import Spinner from "@/components/Spinner";
 const FacturiPage = () => {
   const [facturi, setFacturi] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState(null);
 
   const fetchFacturi = async () => {
     const res = await fetch("/api/facturi");
@@ -18,17 +19,28 @@ const FacturiPage = () => {
 
   useEffect(() => {
     fetchFacturi();
+    const fetchUser = async () => {
+      const res = await fetch("/api/auth/me");
+      if (res.ok) {
+        const data = await res.json();
+        setUser(data.user);
+      }
+    };
+
+    fetchUser();
   }, []);
 
   if (loading) return <Spinner />;
+  const isAdmin = user?.rol === "admin";
   return (
     <div className="max-w-5xl mx-auto p-8">
       <div className="flex justify-between items-center mb-8">
         <h1 className="text-3xl font-bold">Facturi</h1>
-
-        <Link href="/facturi/create" className="bg-blue-600 text-white px-4 py-2 rounded">
-          Adaugă factură
-        </Link>
+        {isAdmin && (
+          <Link href="/facturi/create" className="bg-blue-600 text-white px-4 py-2 rounded">
+            Adaugă factură
+          </Link>
+        )}
       </div>
 
       <div className="grid gap-4">

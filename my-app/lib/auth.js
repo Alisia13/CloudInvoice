@@ -6,6 +6,7 @@ export function createToken(user) {
       id: user._id.toString(),
       nume: user.nume,
       email: user.email,
+      rol: user.rol || "user",
     },
     process.env.JWT_SECRET,
     { expiresIn: "30m" }

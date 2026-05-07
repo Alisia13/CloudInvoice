@@ -30,6 +30,7 @@ export async function POST(request) {
     nume,
     email,
     parola: hashedPassword,
+    rol: "user",
     dataCreare: new Date().toISOString().split("T")[0],
   };
 

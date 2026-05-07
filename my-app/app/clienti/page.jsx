@@ -6,6 +6,7 @@ import { getClienti, deleteClient } from "@/utils/clientiFunctions";
 
 const ClientiPage = () => {
     const [clienti, setClienti] = useState([]);
+    const [user, setUser] = useState(null);
 
     const fetchClienti = async () => {
         const data = await getClienti();
@@ -31,15 +32,27 @@ const ClientiPage = () => {
 
     useEffect(() => {
         fetchClienti();
+        const fetchUser = async () => {
+            const res = await fetch("/api/auth/me");
+            if (res.ok) {
+                const data = await res.json();
+                setUser(data.user);
+            }
+        };
+        fetchUser();
     }, []);
+
+    const isAdmin = user?.rol === "admin";
+
     return (
         <div className="max-w-5xl mx-auto p-8">
             <div className="flex justify-between items-center mb-8">
                 <h1 className="text-3xl font-bold">Clienți</h1>
-
-                <Link href="/clienti/create" className="bg-blue-600 text-white rounded px-4 py-2">
-                    Adaugă client
-                </Link>
+                {isAdmin && (
+                    <Link href="/clienti/create" className="bg-blue-600 text-white rounded px-4 py-2">
+                        Adaugă client
+                    </Link>
+                )}
             </div>
 
             <div className="grid gap-4">
@@ -53,18 +66,20 @@ const ClientiPage = () => {
                             <p className="text-sm text-gray-400">Creat la: {client.dataCreare}</p>
                         </div>
 
-                        <div className="flex gap-2">
-                            <Link href={`/clienti/edit?id=${client._id}`} className="bg-yellow-400 text-white rounded px-3 py-1 h-fit">
-                                Edit
-                            </Link>
+                        {isAdmin && (
+                            <div className="flex gap-2">
+                                <Link href={`/clienti/edit?id=${client._id}`} className="bg-yellow-400 text-white rounded px-3 py-1 h-fit">
+                                    Edit
+                                </Link>
 
-                            <button
-                                onClick={() => handleDelete(client._id)}
-                                className="bg-red-500 text-white rounded px-3 py-1 h-fit"
-                            >
-                                Delete
-                            </button>
-                        </div>
+                                <button
+                                    onClick={() => handleDelete(client._id)}
+                                    className="bg-red-500 text-white rounded px-3 py-1 h-fit"
+                                >
+                                    Delete
+                                </button>
+                            </div>
+                        )}
                     </div>
                 ))}
             </div>
