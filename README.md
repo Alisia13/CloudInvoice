@@ -7,13 +7,13 @@
 
 # Link prezentare video
 
-link
+https://drive.google.com/file/d/1JGWU5MPAeI29qmTTo0OHUOdhxp1oAMej/view?usp=drive_link
 
 ---
 
 # Link aplicație publicată
 
-[cloud-invoice-74d72ucqc-alisia13s-projects.vercel.app](https://cloud-invoice-74d72ucqc-alisia13s-projects.vercel.app)
+https://cloud-invoice-4nr9bchiy-alisia13s-projects.vercel.app
 
 ---
 
@@ -114,7 +114,25 @@ Autentificarea utilizatorilor este realizată folosind JWT (JSON Web Token).
 Tokenul este salvat într-un cookie HTTP-only și este utilizat pentru menținerea sesiunii active după refresh-ul paginii.
 Cheile și datele sensibile sunt stocate în fișierul .env și în variabilele de mediu din Vercel.
 
----
+Exemplu:
+
+```env
+NEXT_ATLAS_URI=...
+```
+
+Pentru trimiterea automată a emailurilor prin SendGrid a fost utilizată o cheie API stocată tot în fișierul `.env`.
+
+```env
+SENDGRID_API_KEY=...
+```
+
+În cazul autentificării JWT, cheia secretă utilizată pentru generarea și verificarea tokenurilor este salvată într-o variabilă de mediu.
+
+```env
+JWT_SECRET=...
+```
+
+La publicarea aplicației pe platforma Vercel, aceste variabile au fost configurate și în secțiunea **Environment Variables** din dashboard-ul Vercel, pentru a putea fi utilizate și în mediul de producție.
 
 # 5. Capturi de ecran
 

@@ -17,10 +17,6 @@ const ClientForm = ({ data, onSubmit }) => {
         [name]: value,
       };
 
-      if (name === "tipClient" && value === "Persoană fizică") {
-        updated.cui = "";
-      }
-
       return updated;
     });
   };

@@ -6,7 +6,7 @@ let mongoClient = null;
 let database = null;
 
 if (!process.env.NEXT_ATLAS_URI) {
-  throw new Error("Please add your Mongo URI to .env.local");
+  throw new Error("Please add your Mongo URI to .env");
 }
 
 export async function connectToDatabase() {
