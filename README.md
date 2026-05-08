@@ -7,7 +7,7 @@
 
 # Link prezentare video
 
-https://drive.google.com/file/d/1JGWU5MPAeI29qmTTo0OHUOdhxp1oAMej/view?usp=drive_link
+https://drive.google.com/file/d/1y-EH952zAmXQRFWhZ3H8vOlKfQKD9Xu3/view?usp=drive_link
 
 ---
 
@@ -114,7 +114,6 @@ Autentificarea utilizatorilor este realizată folosind JWT (JSON Web Token).
 Tokenul este salvat într-un cookie HTTP-only și este utilizat pentru menținerea sesiunii active după refresh-ul paginii.
 Cheile și datele sensibile sunt stocate în fișierul .env și în variabilele de mediu din Vercel.
 
-<<<<<<< HEAD
 Exemplu:
 
 ```env
@@ -132,11 +131,6 @@ SENDGRID_API_KEY=...
 ```env
 JWT_SECRET=...
 ```
-
-La publicarea aplicației pe platforma Vercel, aceste variabile au fost configurate și în secțiunea **Environment Variables** din dashboard-ul Vercel, pentru a putea fi utilizate și în mediul de producție.
-=======
----
->>>>>>> 34ac94a (Update project README documentation)
 
 # 5. Capturi de ecran
 
